@@ -11,45 +11,69 @@
       margin: auto;
       background: #f5f5f5;
     }
+
     h1 {
       text-align: center;
       color: #333;
     }
+
     label {
       font-weight: bold;
       display: block;
       margin-top: 20px;
     }
-    input, textarea {
+
+    input[type="text"],
+    input[type="email"],
+    textarea {
       width: 100%;
       padding: 10px;
       margin-top: 5px;
       border: 1px solid #ccc;
       border-radius: 5px;
+      box-sizing: border-box;
     }
 
-    /* Botón ajustado al tamaño del texto */
     .boton-enviar {
-      background-color: #0078D7;
+      background-color: #643535 ;
       color: white;
       border: none;
-      padding: 8px 16px;
+      padding: 6px 14px;
       border-radius: 5px;
       cursor: pointer;
-      display: inline-block;
-      margin-top: 20px;
       font-size: 14px;
+      margin-top: 20px;
     }
 
     .boton-enviar:hover {
       background-color: #005fa3;
     }
+
+    /* Modal personalizado */
+    #mensaje-exito {
+      display: none;
+      position: fixed;
+      top: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #4BB543;
+      color: white;
+      padding: 15px 25px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+      z-index: 1000;
+      font-weight: bold;
+    }
   </style>
 </head>
 <body>
+
   <h1>Formulario de Contacto</h1>
 
-  <form action="https://formsubmit.co/mariiorod@hotmail.com" method="POST" onsubmit="return mostrarAlerta();">
+  <!-- Modal flotante -->
+  <div id="mensaje-exito">Mensaje enviado correctamente</div>
+
+  <form action="https://formsubmit.co/mariiorod@hotmail.com" method="POST" onsubmit="mostrarMensaje();">
     <label for="nombre">Nombre:</label>
     <input type="text" id="nombre" name="nombre" required>
 
@@ -59,20 +83,23 @@
     <label for="mensaje">Mensaje:</label>
     <textarea id="mensaje" name="mensaje" rows="5" required></textarea>
 
-    <!-- Activar CAPTCHA (opcional, puede cambiarse a false) -->
+    <!-- Activar CAPTCHA -->
     <input type="hidden" name="_captcha" value="true">
 
-    <!-- Redirección opcional (solo se usa si NO mostramos el alert) -->
-    <!-- <input type="hidden" name="_next" value="https://example.com/gracias.html"> -->
+    <!-- Quitamos _next para evitar redirección incorrecta -->
 
     <input class="boton-enviar" type="submit" value="Enviar">
   </form>
 
   <script>
-    function mostrarAlerta() {
-      alert("Mensaje enviado correctamente");
-      return true; // Permite que se envíe el formulario
+    function mostrarMensaje() {
+      const modal = document.getElementById('mensaje-exito');
+      modal.style.display = 'block';
+      setTimeout(() => {
+        modal.style.display = 'none';
+      }, 3000); // se oculta después de 3 segundos
     }
   </script>
+
 </body>
 </html>
