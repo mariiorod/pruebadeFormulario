@@ -23,45 +23,57 @@
       margin-top: 20px;
     }
 
-    input, textarea {
+    input[type="text"],
+    input[type="email"],
+    textarea {
       width: 100%;
       padding: 10px;
       margin-top: 5px;
       border: 1px solid #ccc;
       border-radius: 5px;
+      box-sizing: border-box;
     }
 
-    input[type="submit"] {
+    .boton-enviar {
       background-color: #0078D7;
       color: white;
       border: none;
-      margin-top: 20px;
-      padding: 6px 12px;
+      padding: 6px 14px;
+      border-radius: 5px;
       cursor: pointer;
-      width: auto;
+      font-size: 14px;
+      margin-top: 20px;
     }
 
-    input[type="submit"]:hover {
+    .boton-enviar:hover {
       background-color: #005fa3;
     }
 
-    .alerta {
-      background-color: #d4edda;
-      color: #155724;
-      border: 1px solid #c3e6cb;
-      padding: 15px;
-      border-radius: 5px;
-      margin-top: 20px;
+    /* Modal personalizado */
+    #mensaje-exito {
       display: none;
+      position: fixed;
+      top: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #4BB543;
+      color: white;
+      padding: 15px 25px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+      z-index: 1000;
+      font-weight: bold;
     }
   </style>
 </head>
 <body>
+
   <h1>Formulario de Contacto</h1>
 
-  <div id="alerta" class="alerta">¡Mensaje enviado correctamente!</div>
+  <!-- Modal flotante -->
+  <div id="mensaje-exito">Mensaje enviado correctamente</div>
 
-  <form id="formulario" action="https://formsubmit.co/mariiorod@hotmail.com" method="POST">
+  <form action="https://formsubmit.co/mariiorod@hotmail.com" method="POST" onsubmit="mostrarMensaje();">
     <label for="nombre">Nombre:</label>
     <input type="text" id="nombre" name="nombre" required>
 
@@ -72,37 +84,22 @@
     <textarea id="mensaje" name="mensaje" rows="5" required></textarea>
 
     <!-- Activar CAPTCHA -->
-    <input type="hidden" name="_captcha" value="true">
+    <input type="hidden" name="_captcha" value="false">
 
-    <!-- Evita redirección -->
-    <input type="hidden" name="_next" value="">
+    <!-- Quitamos _next para evitar redirección incorrecta -->
 
-    <input type="submit" value="Enviar">
+    <input class="boton-enviar" type="submit" value="Enviar">
   </form>
 
   <script>
-    document.getElementById("formulario").addEventListener("submit", function(event) {
-      event.preventDefault(); // Evita redirección inmediata
-
-      const form = event.target;
-
-      fetch(form.action, {
-        method: "POST",
-        body: new FormData(form),
-        headers: {
-          'Accept': 'application/json'
-        }
-      }).then(response => {
-        if (response.ok) {
-          form.reset();
-          document.getElementById("alerta").style.display = "block";
-        } else {
-          alert("Hubo un problema al enviar el mensaje.");
-        }
-      }).catch(error => {
-        alert("Error de red: " + error);
-      });
-    });
+    function mostrarMensaje() {
+      const modal = document.getElementById('mensaje-exito');
+      modal.style.display = 'block';
+      setTimeout(() => {
+        modal.style.display = 'none';
+      }, 3000); // se oculta después de 3 segundos
+    }
   </script>
+
 </body>
 </html>
